@@ -1,7 +1,7 @@
-body {
-	font-family: 'Roboto', sans-serif;
+body, html {
 	padding: 0;
 	margin: 0;
+	font-family: 'Roboto', sans-serif;
 }
 h3 {
 	margin: 0;
@@ -40,15 +40,19 @@ input {
 /*
  *	EXTRA
  */
-.btn {
+ 
+.btn, button {
 	padding: 8px;
+	border: none;
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+	font-size: 12px;
 	cursor: pointer;
 }
 .btn-title {
 	margin: 0 0 0 5px;
 }
 .btn:not(.btn-title) {
-	margin: 100px 0;
 	padding: 8px 10px;
 }
 .btn-danger {
