@@ -72,19 +72,24 @@ $(document).on("click", ".addStudent", function() {
 	}
 });
 
-$(document).on("click", ".removeStudent", function() {
-	$(".classes ." + $(this).attr("data-class") + " .students ." + $(this).attr("data-student")).remove();
-	$(".classes ." + $(this).attr("data-class") + " .total-students").text(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) - 1);
-	$(".classes ." + $(this).attr("data-class") + " .total-points").text(parseInt($(".classes ." + $(this).attr("data-class") + " .total-points").text()) - store.get("classes." + $(this).attr("data-class") + ".students." + $(this).attr("data-student")));
-	store.delete("classes." + $(this).attr("data-class") + ".students." + $(this).attr("data-student"));
-	if(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) == 0) {
-		$(".classes ." + $(this).attr("data-class") + " .students").append("<tr>" +
-			"<td>No students have been added to this class.</td>" +
-			"<td class=\"text-right\">-</td>" +
-			"<td class=\"text-right\">-</td>" +
-			"<td class=\"text-right\">-</td>" +
-			"<td class=\"text-right\">-</td>" +
-		"</tr>");
+$(document).on("click", ".removeStudent", function(event) {
+	if(event.originalEvent === undefined) {
+		$(".prompt-wrapper").remove();
+		$(".classes ." + $(this).attr("data-class") + " .students ." + $(this).attr("data-student")).remove();
+		$(".classes ." + $(this).attr("data-class") + " .total-students").text(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) - 1);
+		$(".classes ." + $(this).attr("data-class") + " .total-points").text(parseInt($(".classes ." + $(this).attr("data-class") + " .total-points").text()) - store.get("classes." + $(this).attr("data-class") + ".students." + $(this).attr("data-student")));
+		store.delete("classes." + $(this).attr("data-class") + ".students." + $(this).attr("data-student"));
+		if(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) == 0) {
+			$(".classes ." + $(this).attr("data-class") + " .students").append("<tr>" +
+				"<td>No students have been added to this class.</td>" +
+				"<td class=\"text-right\">-</td>" +
+				"<td class=\"text-right\">-</td>" +
+				"<td class=\"text-right\">-</td>" +
+				"<td class=\"text-right\">-</td>" +
+			"</tr>");
+		}
+	} else {
+		checkPrompt("remove student <b>" + replaceAll($(this).attr("data-student"), "-", " ") + "</b> from class <b>" + replaceAll($(this).attr("data-class"), "-", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .students ." + $(this).attr("data-student") + " .removeStudent");
 	}
 });
 
@@ -144,10 +149,15 @@ $(document).on("click", ".addClass", function() {
 	}
 });
 
-$(document).on("click", ".removeClass", function() {
-	store.delete("classes." + $(this).attr("data-class"));
-	$(".classes ." + $(this).attr("data-class")).remove();
-	$(".count").text(parseInt($(".count").text()) - 1);
+$(document).on("click", ".removeClass", function(event) {
+	if(event.originalEvent === undefined) {
+		$(".prompt-wrapper").remove();
+		store.delete("classes." + $(this).attr("data-class"));
+		$(".classes ." + $(this).attr("data-class")).remove();
+		$(".count").text(parseInt($(".count").text()) - 1);
+	} else {
+		checkPrompt("remove class <b>" + replaceAll($(this).attr("data-class"), "-", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .removeClass");
+	}
 });
 
 $(document).on("click", ".spoiler-btn", function() {
@@ -264,8 +274,16 @@ function replaceAll(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
-function spoiler() {
-
+function checkPrompt(message, click) {
+	$("body").append("<div class=\"prompt-wrapper\">" +
+		"<div class=\"prompt\">" +
+			"<p>Are you sure you want to proceed with the following actions?</p>" +
+			"<ul>" +
+				"<li>" + message + "</li>" +
+			"</ul>" +
+			"<button type=\"button\" onclick=\"$('.prompt-wrapper').remove()\" class=\"btn btn-title btn-neutral\">Cancel</button> <button type=\"button\" onclick=\"$('" + click + "').click()\" class=\"btn btn-title btn-danger\">Proceed</button>" +
+		"</div>" +
+	"</div>");
 }
 
 /*

@@ -92,6 +92,7 @@ input {
  *	WINDOW-BAR
  */
 .window-bar ul.menu {
+	z-index: 999;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -202,4 +203,31 @@ tbody td {
 thead th {
 	background: rgba(0, 0, 0, 0.2);
 	color: #fff;
+}
+
+/*
+ *	PROMPT
+ */
+.prompt-wrapper {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.7);
+}
+.prompt {
+    background-color: #1a1a1a;
+	color: #fff;
+    margin: auto;
+    padding: 20px;
+	font-size: 12px;
+    width: 80%;
+	box-shadow: 0 0 20px #000;
+}
+.prompt ul {
+	margin: 0 0 35px;
 }
