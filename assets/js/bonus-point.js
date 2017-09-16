@@ -96,8 +96,7 @@ $(document).on("click", ".removeStudent", function(event) {
 $(document).on("click", ".addClass", function() {
 	if(!store.has("classes." + replaceAll($(".main .addClassInput").val(), " ", "-") + ".status") && /^[\w\-\s]+$/.test($(".main .addClassInput").val()) && $(".main .addClassInput").val() != "") {
 		$(".spoiler-btn").each(function(index) {
-			if($(this).attr("data-spoiler-value") == "active") {
-				$(this).attr("data-spoiler-value", "inactive");
+			if($("#" + $(this).attr("data-spoiler-id")).is(":visible")) {
 				$("#" + $(this).attr("data-spoiler-id")).hide();
 				$(this).text("View");
 			}
@@ -107,7 +106,7 @@ $(document).on("click", ".addClass", function() {
 		$(".count").text(parseInt($(".count").text()) + 1);
 		$(".classes").append("<div class=\"card card-slim " + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\" data-spoiler-value=\"active\">Close</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Remove</span>" +
+				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Close</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Remove</span>" +
 			"</div>" +
 			"<div class=\"spoiler\" id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">" +
 				"<div class=\"card-content\">" +
@@ -161,21 +160,18 @@ $(document).on("click", ".removeClass", function(event) {
 });
 
 $(document).on("click", ".spoiler-btn", function() {
-	if($(this).attr("data-spoiler-value") == "inactive") {
+	if($("#" + $(this).attr("data-spoiler-id")).is(":visible")) {
+		$("#" + $(this).attr("data-spoiler-id")).hide();
+		$(this).text("View");
+	} else {
 		$(".spoiler-btn").each(function(index) {
-			if($(this).attr("data-spoiler-value") == "active") {
-				$(this).attr("data-spoiler-value", "inactive");
+			if($("#" + $(this).attr("data-spoiler-id")).is(":visible")) {
 				$("#" + $(this).attr("data-spoiler-id")).hide();
 				$(this).text("View");
 			}
 		});
-		$(this).attr("data-spoiler-value", "active");
 		$("#" + $(this).attr("data-spoiler-id")).show();
 		$(this).text("Close");
-	} else {
-		$(this).attr("data-spoiler-value", "inactive");
-		$("#" + $(this).attr("data-spoiler-id")).hide();
-		$(this).text("View");
 	}
 });
 
@@ -201,7 +197,7 @@ function page() {
 		}
 		local = "<div class=\"card card-slim " + index + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + replaceAll(index, "-", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g['students'] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\" data-spoiler-value=\"inactive\">View</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
+				"<span class=\"name\">" + replaceAll(index, "-", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g['students'] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\">View</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
 			"</div>" +
 			"<div class=\"spoiler\" id=\"spoiler-" + index + "\">" +
 				"<div class=\"card-content\">" +
