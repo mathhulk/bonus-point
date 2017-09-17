@@ -50,23 +50,23 @@ $(document).on("click", ".decreasePoints", function() {
 });
 
 $(document).on("click", ".addStudent", function() {
-	if($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val() != "" && !store.has("classes." + $(this).attr("data-class") + ".students." + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-")) && /^[\w\-\s]+$/.test($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val())) {
-		store.set("classes." + $(this).attr("data-class") + ".students." + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-"), 0);
+	if($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val() != "" && !store.has("classes." + $(this).attr("data-class") + ".students." + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_")) && /^[a-zA-Z0-9.-\s]+$/.test($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val())) {
+		store.set("classes." + $(this).attr("data-class") + ".students." + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_"), 0);
 		$(".classes ." + $(this).attr("data-class") + " .total-students").text(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) + 1);
 		if(parseInt($(".classes ." + $(this).attr("data-class") + " .total-students").text()) == 1) {
 			$(".classes ." + $(this).attr("data-class") + " .students").empty();
 		}
-		$(".classes ." + $(this).attr("data-class") + " .students").append("<tr class=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-") + "\">" +
+		$(".classes ." + $(this).attr("data-class") + " .students").append("<tr class=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_") + "\">" +
 			"<td>" + $(".classes ." + $(this).attr("data-class") + " .addStudentInput").val() + "</td>" +
 			"<td class=\"points text-right\">0</td>" +
 			"<td class=\"text-right\">" +
 				"<form>" +
-					"<input placeholder=\"Amount\" type=\"number\" class=\"bulkAddSubtractPointsInput\" maxlength=\"100\" /> <button type=\"submit\" class=\"btn btn-neutral bulkAddSubtractPoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-") + "\"><i class=\"fa fa-check\"></i></button>" +
+					"<input placeholder=\"Amount\" type=\"number\" class=\"bulkAddSubtractPointsInput\" maxlength=\"100\" /> <button type=\"submit\" class=\"btn btn-neutral bulkAddSubtractPoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_") + "\"><i class=\"fa fa-check\"></i></button>" +
 				"</form>" +
 			"</td>" +
-			"<td class=\"text-right\"><span class=\"btn btn-neutral increasePoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-") + "\"><i class=\"fa fa-chevron-up\"></i></span></td>" +
-			"<td class=\"text-right\"><span class=\"btn btn-neutral decreasePoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-") + "\"><i class=\"fa fa-chevron-down\"></i></span></td>" +
-			"<td class=\"text-right\"><span class=\"btn btn-danger removeStudent\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "-") + "\"><i class=\"fa fa-times\"></i></span></td>" +
+			"<td class=\"text-right\"><span class=\"btn btn-neutral increasePoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_") + "\"><i class=\"fa fa-chevron-up\"></i></span></td>" +
+			"<td class=\"text-right\"><span class=\"btn btn-neutral decreasePoints\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_") + "\"><i class=\"fa fa-chevron-down\"></i></span></td>" +
+			"<td class=\"text-right\"><span class=\"btn btn-danger removeStudent\" data-class=\"" + $(this).attr("data-class") + "\" data-student=\"" + replaceAll($(".classes ." + $(this).attr("data-class") + " .addStudentInput").val(), " ", "_") + "\"><i class=\"fa fa-times\"></i></span></td>" +
 		"</tr>");
 		$(".classes ." + $(this).attr("data-class") + " .addStudentInput").val("");
 	}
@@ -89,26 +89,26 @@ $(document).on("click", ".removeStudent", function(event) {
 			"</tr>");
 		}
 	} else {
-		checkPrompt("remove student <b>" + replaceAll($(this).attr("data-student"), "-", " ") + "</b> from class <b>" + replaceAll($(this).attr("data-class"), "-", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .students ." + $(this).attr("data-student") + " .removeStudent");
+		checkPrompt("remove student <b>" + replaceAll($(this).attr("data-student"), "_", " ") + "</b> from class <b>" + replaceAll($(this).attr("data-class"), "_", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .students ." + $(this).attr("data-student") + " .removeStudent");
 	}
 });
 
 $(document).on("click", ".addClass", function() {
-	if(!store.has("classes." + replaceAll($(".main .addClassInput").val(), " ", "-") + ".status") && /^[\w\-\s]+$/.test($(".main .addClassInput").val()) && $(".main .addClassInput").val() != "") {
+	if(!store.has("classes." + replaceAll($(".main .addClassInput").val(), " ", "_") + ".status") && /^[a-zA-Z0-9.-\s]+$/.test($(".main .addClassInput").val()) && $(".main .addClassInput").val() != "") {
 		$(".spoiler-btn").each(function(index) {
 			if($("#" + $(this).attr("data-spoiler-id")).is(":visible")) {
 				$("#" + $(this).attr("data-spoiler-id")).hide();
 				$(this).text("View");
 			}
 		});
-		store.set("classes." + replaceAll($(".main .addClassInput").val(), " ", "-") + ".status", true);
-		store.set("classes." + replaceAll($(".main .addClassInput").val(), " ", "-") + ".creation", Date.now());
+		store.set("classes." + replaceAll($(".main .addClassInput").val(), " ", "_") + ".status", true);
+		store.set("classes." + replaceAll($(".main .addClassInput").val(), " ", "_") + ".creation", Date.now());
 		$(".count").text(parseInt($(".count").text()) + 1);
-		$(".classes").append("<div class=\"card card-slim " + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">" +
+		$(".classes").append("<div class=\"card card-slim " + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Close</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Remove</span>" +
+				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Close</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Remove</span>" +
 			"</div>" +
-			"<div class=\"spoiler\" id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">" +
+			"<div class=\"spoiler\" id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">" +
 				"<div class=\"card-content\">" +
 					"Created on " + dateFormat(Date.now(), 'mmmm dS, yyyy') +
 				"</div>" +
@@ -139,7 +139,7 @@ $(document).on("click", ".addClass", function() {
 				"<div class=\"card-title\"><b>Add Student</b></div>" +
 				"<div class=\"card-content\">" +
 					"<form>" +
-						"<input placeholder=\"John Smith\" type=\"text\" class=\"addStudentInput\" maxlength=\"100\" /> <button type=\"submit\" class=\"btn btn-neutral btn-title addStudent\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "-") + "\">Create</button>" +
+						"<input placeholder=\"John Smith\" type=\"text\" class=\"addStudentInput\" maxlength=\"100\" /> <button type=\"submit\" class=\"btn btn-neutral btn-title addStudent\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Create</button>" +
 					"</form>" +
 				"</div>" +
 			"</div>" +
@@ -155,7 +155,7 @@ $(document).on("click", ".removeClass", function(event) {
 		$(".classes ." + $(this).attr("data-class")).remove();
 		$(".count").text(parseInt($(".count").text()) - 1);
 	} else {
-		checkPrompt("remove class <b>" + replaceAll($(this).attr("data-class"), "-", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .removeClass");
+		checkPrompt("remove class <b>" + replaceAll($(this).attr("data-class"), "_", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .removeClass");
 	}
 });
 
@@ -197,7 +197,7 @@ function page() {
 		}
 		local = "<div class=\"card card-slim " + index + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + replaceAll(index, "-", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g['students'] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\">View</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
+				"<span class=\"name\">" + replaceAll(index, "_", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g['students'] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\">View</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
 			"</div>" +
 			"<div class=\"spoiler\" id=\"spoiler-" + index + "\">" +
 				"<div class=\"card-content\">" +
@@ -220,7 +220,7 @@ function page() {
 				$.each(value.students, function(student, points) {
 					g['points'] += points;
 					local += "<tr class=\"" + student + "\">" +
-						"<td>" + replaceAll(student, "-", " ") + "</td>" +
+						"<td>" + replaceAll(student, "_", " ") + "</td>" +
 						"<td class=\"points text-right\">" + points + "</td>" +
 						"<td class=\"text-right\">" +
 							"<form>" +
