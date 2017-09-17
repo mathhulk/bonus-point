@@ -1,4 +1,4 @@
-# bonuspoint
-Bonus Point aims to provide teachers with an easy way to track bonus points or other forms of in-class currency for their students.
+The Bonus Point desktop application allows teachers to easily track bonus or extra credit points for their students.
 
-Desktop application currently under development. 
+More information can be found at https://bonuspoint.org and https://bonuspoint.org/information/.
+If you wish to download directly from the Bonus Point site, please visit https://bonuspoint.org/download/.
