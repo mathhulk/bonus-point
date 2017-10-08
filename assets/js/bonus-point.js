@@ -1,11 +1,13 @@
-const app = require('electron');
-const path = require('path');
-const url = require('url');
+const app = require("electron");
+const path = require("path");
+const url = require("url");
+const Store = require("electron-store");
+const dateFormat = require("dateformat");
 
-const Store = require('electron-store');
+/*
+ *	VARIABLES
+ */
 const store = new Store();
-const dateFormat = require('dateformat');
-
 let g = new Object();
 
 /*
@@ -23,7 +25,7 @@ $(".closeWindow").click(function() {
     app.remote.getCurrentWindow().close();
 });
 
-$(document).on('click', 'a[href^="http"]', function(event) {
+$(document).on("click", "a[href^=\"http\"]", function(event) {
     event.preventDefault();
     app.shell.openExternal(this.href);
 });
@@ -106,11 +108,11 @@ $(document).on("click", ".addClass", function() {
 		$(".count").text(parseInt($(".count").text()) + 1);
 		$(".classes").append("<div class=\"card card-slim " + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Close</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Remove</span>" +
+				"<span class=\"name\">" + $(".main .addClassInput").val() + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">0</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\">0</span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Close</span> <span class=\"btn btn-title btn-danger resetClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Reset</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">Remove</span>" +
 			"</div>" +
 			"<div class=\"spoiler\" id=\"spoiler-" + replaceAll($(".main .addClassInput").val(), " ", "_") + "\">" +
 				"<div class=\"card-content\">" +
-					"Created on " + dateFormat(Date.now(), 'mmmm dS, yyyy') +
+					"Created on " + dateFormat(Date.now(), "mmmm dS, yyyy") +
 				"</div>" +
 				"<div class=\"table-wrapper\">" +
 					"<table>" +
@@ -159,6 +161,20 @@ $(document).on("click", ".removeClass", function(event) {
 	}
 });
 
+$(document).on("click", ".resetClass", function(event) {
+	if(event.originalEvent === undefined) {
+		$(".prompt-wrapper").remove();
+		$(".classes ." + $(this).attr("data-class") + " .total-points").text("0");
+		var save = $(this).attr("data-class");
+		$.each(store.get("classes." + $(this).attr("data-class") + ".students"), function(index, value) {
+			store.set("classes." + save + ".students." + index, 0);
+			$("." + save + " .students ." + index + " .points").text("0");
+		});
+	} else {
+		checkPrompt("reset class <b>" + replaceAll($(this).attr("data-class"), "_", " ") + "</b>", ".classes ." + $(this).attr("data-class") + " .resetClass");
+	}
+});
+
 $(document).on("click", ".spoiler-btn", function() {
 	if($("#" + $(this).attr("data-spoiler-id")).is(":visible")) {
 		$("#" + $(this).attr("data-spoiler-id")).hide();
@@ -191,17 +207,17 @@ function page() {
 	}
 	$.each(store.get("classes"), function(index, value) {
 		if(store.get("classes." + index + ".students") == undefined) {
-			g['students'] = 0;
+			g["students"] = 0;
 		} else {
-			g['students'] = Object.keys(store.get("classes." + index + ".students")).length;
+			g["students"] = Object.keys(store.get("classes." + index + ".students")).length;
 		}
 		local = "<div class=\"card card-slim " + index + "\">" +
 			"<div class=\"card-title\">" +
-				"<span class=\"name\">" + replaceAll(index, "_", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g['students'] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\">View</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
+				"<span class=\"name\">" + replaceAll(index, "_", " ") + "</span> <span class=\"btn btn-title btn-success\"><span class=\"total-students\">" + g["students"] + "</span> students</span> <span class=\"btn btn-title btn-success\"><span class=\"total-points\"></span> points</span> <span class=\"btn btn-title btn-neutral spoiler-btn\" data-spoiler-id=\"spoiler-" + index + "\">View</span> <span class=\"btn btn-title btn-danger resetClass\" data-class=\"" + index + "\">Reset</span> <span class=\"btn btn-title btn-danger removeClass\" data-class=\"" + index + "\">Remove</span>" +
 			"</div>" +
 			"<div class=\"spoiler\" id=\"spoiler-" + index + "\">" +
 				"<div class=\"card-content\">" +
-					"Created on " + dateFormat(value.creation, 'mmmm dS, yyyy') +
+					"Created on " + dateFormat(value.creation, "mmmm dS, yyyy") +
 				"</div>" +
 				"<div class=\"table-wrapper\">" +
 					"<table>" +
@@ -216,9 +232,9 @@ function page() {
 							"</tr>" +
 						"</thead>" +
 						"<tbody class=\"students\">";
-				g['points'] = 0;
+				g["points"] = 0;
 				$.each(value.students, function(student, points) {
-					g['points'] += points;
+					g["points"] += points;
 					local += "<tr class=\"" + student + "\">" +
 						"<td>" + replaceAll(student, "_", " ") + "</td>" +
 						"<td class=\"points text-right\">" + points + "</td>" +
@@ -232,7 +248,7 @@ function page() {
 						"<td class=\"text-right\"><span class=\"btn btn-danger removeStudent\" data-class=\"" + index + "\" data-student=\"" + student + "\"><i class=\"fa fa-times\"></i></span></td>" +
 					"</tr>";
 				});
-				if(g['students'] == 0) {
+				if(g["students"] == 0) {
 					local += "<tr>" +
 						"<td>No students have been added to this class.</td>" +
 						"<td class=\"text-right\">-</td>" +
@@ -254,7 +270,7 @@ function page() {
 			"</div>" +
 		"</div>";
 		$(".classes").append(local);
-		$(".classes ." + index + " .total-points").text(g['points']);
+		$(".classes ." + index + " .total-points").text(g["points"]);
 	});
 	$(".spoiler").hide();
 }
@@ -267,7 +283,7 @@ function escapeRegExp(str) {
 }
 
 function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    return str.replace(new RegExp(escapeRegExp(find), "g"), replace);
 }
 
 function checkPrompt(message, click) {
