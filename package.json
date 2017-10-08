@@ -1,6 +1,6 @@
 {
   "name": "bonus-point",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "main.js",
   "author": "mathhulk",
   "description": "Bonus Point aims to provide teachers with an easy way to track bonus points or other forms of in-class currency for their students.",
