@@ -11,7 +11,7 @@ let win;
  *	FUNCTIONS
  */
 function createWindow () {
-	win = new BrowserWindow({width: 850, height: 650, frame: false, show: false, backgroundColor: "#1a1a1a", minWidth: 400, minHeight: 550});
+	win = new BrowserWindow({width: 850, height: 650, frame: false, show: false, backgroundColor: "#1a1a1a", minWidth: 850, minHeight: 650});
 	win.loadURL(url.format({
 		pathname: path.join(__dirname, "index.html"),
 		protocol: "file:",
