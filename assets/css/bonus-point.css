@@ -1,7 +1,7 @@
 body, html {
+	font-family: "Roboto", sans-serif;
 	padding: 0;
 	margin: 0;
-	font-family: 'Roboto', sans-serif;
 }
 h3 {
 	margin: 0;
@@ -26,8 +26,12 @@ h3 {
 /*
  *	MAIN
  */
+.wrapper {
+	height: 100vh;
+	overflow: auto;
+}
 .main {
-	padding: 75px 10% 50px 10%;
+	padding: 75px 10% 50px;
 }
 
 /*
@@ -35,6 +39,9 @@ h3 {
  */
 input {
 	padding: 5.5px;
+}
+form {
+	min-width: 220px;
 }
 
 /*
@@ -172,7 +179,6 @@ input {
 	width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-	border-radius: 5px;
 	background: #050505;
 }
 ::-webkit-scrollbar-track {

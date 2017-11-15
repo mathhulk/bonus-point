@@ -88,6 +88,7 @@ $(document).on("click", ".removeStudent", function(event) {
 				"<td class=\"text-right\">-</td>" +
 				"<td class=\"text-right\">-</td>" +
 				"<td class=\"text-right\">-</td>" +
+				"<td class=\"text-right\">-</td>" +
 			"</tr>");
 		}
 	} else {
