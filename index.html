@@ -1,49 +1,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
 		<title>Bonus Point</title>
-		<link href="assets/css/google-fonts-roboto.css" rel="stylesheet" />
-		<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
-		<link href="assets/css/bonus-point.css" rel="stylesheet" />
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Lato:100,200,300,400,500,600,700,800,900">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/css/electron.css">
+		<link rel="stylesheet" href="assets/css/bonus-point.css">
 	</head>
 	<body>
 		<div class="window-bar">
 			<ul class="menu">
-				<div class="functions">
-					<li><a class="brand"><img src="assets/img/favicon.ico"></a></li>
-					<li><a>Bonus Point</a></li>
-					<li class="divider"></li>
-					<li><a href="https://github.com/mathhulk/bonus-point">GitHub</a></li>
-					<li><a href="https://www.bonuspoint.org">Website</a></li>
-					<li class="divider"></li>
-					<li><a onclick="page()"><span class="count"></span> Classes</a></li>
-				</div>
-				<div class="controls">
-					<li><a class="closeWindow"><i class="fa fa-times"></i></a></li>
-					<li><a class="maximizeWindow"><i class="fa fa-window-maximize"></i></a></li>
-					<li><a class="minimizeWindow"><i class="fa fa-window-minimize"></i></a></li>
-				</div>
+				<li class="left"><a href="https://bonuspoint.org">Bonus Point</a></li>
+				<li class="right"><a class="closeWindow"><i class="fa fa-times"></i></a></li>
+				<li class="right"><a class="maximizeWindow"><i class="fa fa-window-maximize"></i></a></li>
+				<li class="right"><a class="minimizeWindow"><i class="fa fa-window-minimize"></i></a></li>
 			</ul>
 		</div>
-		<div class="wrapper">
-			<div class="main">
-				<div class="card card-slim">
-					<div class="card-title"><h3>Add Class</h3></div>
-					<div class="card-content">
-						<form>
-							<input placeholder="World History" type="text" maxlength="100" class="addClassInput" /> <button type="submit" class="btn btn-neutral btn-title addClass">Create</button>
-						</form>
-					</div>
-				</div>
-				<div class="classes">
-					<!-- FILL -->
-				</div>
+		
+		<div class="side">
+			<div class="title clear">
+				<h2>Classes</h2>
+				<p class="createClass"><i class="fa fa-plus"></i></p>
 			</div>
+			<ul class="classes"><!-- classes --></ul>
 		</div>
-		<script>if(typeof module === "object") {window.module = module; module = undefined;}</script>
-		<script src="assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
-		<script src="assets/js/bonus-point.js" type="text/javascript"></script>
-		<script>if(window.module) module = window.module;</script>
+		
+		<div class="content"><!-- class --></div>
+		
+		<script>if (typeof module === "object") {window.module = module; module = undefined;}</script>
+		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/js/electron.js"></script>
+		<script type="text/javascript" src="assets/js/bonus-point.js"></script>
+		<script>if (window.module) module = window.module;</script>
 	</body>
 </html>
