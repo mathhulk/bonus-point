@@ -10,7 +10,7 @@
     "electron-builder": "^20.13.3"
   },
   "build": {
-    "appId": "info.mathhulk.bonus-point",
+    "appId": "net.mathhulk.bonus-point",
     "productName": "Bonus Point"
   },
   "scripts": {
