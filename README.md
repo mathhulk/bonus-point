@@ -4,22 +4,22 @@ The Bonus Point desktop application allows teachers to easily track bonus or ext
 ### Build Instructions (Electron)
 Before getting started, please make sure to have the latest versions of Node.js, npm and Yarn installed.
 
-Once you have cloned Emma to a local folder, you can run the following command to add electron-builder as a dependency.
-```
-$ yarn add electron-builder --dev
-```
-
-In order to update the `package-lock.json` file, you must first delete the current `package-lock.json` and run the following command.
+Once you have cloned Emma to your local file system, navigate to your package and run the following command to install all modules. This command will also generate the `package-lock.json` file with the latest versions of all modules.
 ```
 $ npm install
 ```
 
-Then, run the following command to make sure that the `yarn.lock` file is up-to-date.
+npm seems to install an old version of electron-builder. To install the latest version, run the following command.
+```
+$ yarn add electron-builder
+```
+
+Then, run the following command to generate the `yarn.lock` file.
 ```
 $ yarn
 ```
 
-After completing all of these steps, you can run the following command to build Emma for your operating system.
+Last, run the following command to build Emma for your operating system. The executable file for installing Emma will be located in the `dist` directory of the project.
 ```
 $ yarn dist
 ```
