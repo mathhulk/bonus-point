@@ -1,23 +1,22 @@
 {
-  "name": "bonus-point",
-  "version": "1.0.0-beta",
+  "name": "Bonus-Point",
+  "version": "1.0.0-beta.1",
   "main": "main.js",
+  "description": "The Bonus Point desktop application allows teachers to track bonus or extra credit points for their students.",
   "author": "mathhulk",
-  "description": "The Bonus Point desktop application allows teachers to easily track bonus or extra credit points for their students.",
-  "postinstall": "electron-builder install-app-deps",
+  "scripts": {
+    "publish": "build -p always",
+    "start": "electron ."
+  },
   "devDependencies": {
     "electron": "^2.0.0-beta.8",
     "electron-builder": "^20.13.3"
   },
-  "build": {
-    "appId": "net.mathhulk.bonus-point",
-    "productName": "Bonus Point"
-  },
-  "scripts": {
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
-  },
   "dependencies": {
-    "electron-store": "^1.3.0"
+    "electron-store": "^1.3.0",
+    "electron-updater": "^2.21.10"
+  },
+  "build": {
+    "appId": "net.mathhulk.bonus-point"
   }
 }

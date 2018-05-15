@@ -16,7 +16,7 @@ function getClasses() {
 			loadClass(index);
 		});
 	} else {
-		fs.readFile("templates/no-classes.txt", "utf-8", function(error, data) {
+		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
 			$(".classes").html(data);
 		});
 	}
@@ -29,7 +29,7 @@ function loadClass(id) {
 			points = points + value.points;
 		});
 	}
-	fs.readFile("templates/classes.txt", "utf-8", function(error, data) {
+	fs.readFile("www/templates/classes.txt", "utf-8", function(error, data) {
 		data = data.replace("{{id}}", id).replace("{{name}}", current.name).replace("{{points}}", points + " Points");
 		if($(".no-classes").length > 0) $(".classes").html(data);
 		else $(".classes").append(data);
@@ -54,7 +54,7 @@ function selectClass(id) {
 			points = points + value.points;
 		});
 	}
-	fs.readFile("templates/class.txt", "utf-8", function(error, data) {
+	fs.readFile("www/templates/class.txt", "utf-8", function(error, data) {
 		$(".content").html(data.replace("{{name}}", current.name).replace("{{points}}", points + " Points")).attr("data-class", id);
 	});
 }
@@ -79,7 +79,7 @@ $(document).on("click", ".deleteClass", function() {
 	deleteClass($(".content").attr("data-class"));
 	if($(".classes").is(":empty")) {
 		
-		fs.readFile("templates/no-classes.txt", "utf-8", function(error, data) {
+		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
 			$(".classes").append(data);
 		});
 	}
