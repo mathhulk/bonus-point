@@ -17,6 +17,10 @@
     "electron-updater": "^2.21.10"
   },
   "build": {
-    "appId": "net.mathhulk.bonus-point"
+    "appId": "net.mathhulk.bonus-point",
+    "publish": {
+      "provider": "github",
+      "releaseType": "draft"
+	}
   }
 }
