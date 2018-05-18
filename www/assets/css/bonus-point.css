@@ -11,6 +11,17 @@
 	right: 0;
 }
 
+.controls {
+	display: none;
+	position: fixed;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	left: 50%;
+	padding: 15px;
+	bottom: 0;
+	transform: translateY(-50%);
+}
+
 .side, .content {
 	box-sizing: border-box;
 	height: calc(100% - 34px);
@@ -45,72 +56,91 @@
 	text-align: center;
 }
 
-.title h2, .title p {
+.title h2, .title p, .students li p, .controls p {
 	display: inline-block;
 }
 
-.classes {
+.students li p:last-child:not(:first-child) {
+	float: right;
+}
+
+.classes, .students {
     list-style-type: none;
 	margin: 0;
 }
 
-.classes li {
+.classes li, .students li {
 	display: block;
-	background: #fff;
 	padding: 12px;
+}
+
+.classes li {
 	border-radius: 10px;
+}
+
+.students li {
+	border-radius: 20px;
+	padding: 12px 20px;
+}
+
+.students li.select {
+	background: #8DC26F;
 }
 
 input {
 	border: 0;
 	background: transparent;
-	color: #fff;
 	width: 100%;
+}
+
+input, .title p, .controls p, .students li.select {
+	color: #fff;
 }
 
 :focus {
 	outline: none;
 }
 
-.classes li, .title p {
+.classes li, .title p, .students li, .controls p {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 	transition: all 0.1s ease;
 }
 
-.classes li:not(.no-classes), .title p {
+.classes li:not(.no-classes), .title p, .students li:not(.no-students), .controls p {
 	cursor: pointer;
 }
 
-::placeholder {
-	color: #fff;
+.title p, .controls p {
+	border-radius: 50%;
+	padding: 10px 13px;
 }
 
 .title p {
 	float: right;
-	color: #fff;
-	padding: 12px 15px;
-	border-radius: 50%;
 }
 
 .side .title p, .content .title p:last-child {
-	background: #00c6ff;
-	background: -webkit-linear-gradient(to right, #0072ff, #00c6ff);
-	background: linear-gradient(to right, #0072ff, #00c6ff);
+	background: #0072ff;
 }
 
-.content .title p:not(:last-child) {
-	background: #e53935;
-	background: -webkit-linear-gradient(to right, #e35d5b, #e53935);
-	background: linear-gradient(to right, #e35d5b, #e53935);
+.content .title p:not(:last-child), .controls p:last-child {
+	background: #e35d5b;
+}
+
+.content .title p:not(:last-child), .controls p:not(:first-child) {
 	margin-left: 10px;
 }
 
-.classes li:not(:last-child), .title, .classes {
+.controls p:not(:last-child) {
+	background: #6a3093;
+}
+
+.classes li:not(:last-child), .title, .classes, .students li:not(:last-child), .students {
 	margin-bottom: 1em;
 }
 
-.classes li:hover:not(.no-classes), .title p:hover {
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+.classes li:hover:not(.no-classes), .title p:hover, .students li:hover:not(.no-students), .controls p:hover {
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
 }
 
 .classes li p.points {
@@ -127,6 +157,9 @@ html, body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+
+html, body, .classes li, .students li, .controls {
 	background: #fff;
 }
 
@@ -134,6 +167,6 @@ html, body, ul, input {
 	padding: 0;
 }
 
-html, body, .title h2, .classes li p, .title p, .no-class h2 {
+html, body, .title h2, .classes li p, .title p, .no-class h2, .students li p, .controls p {
 	margin: 0;
 }
