@@ -8,9 +8,11 @@ const store = new Store();
 //
 //	FUNCTIONS
 // 
+
 function getClasses() {
 	var classMultiple = store.get("bonus-point.classes");
 	if(classMultiple && Object.keys(classMultiple).length > 0) {
+		classMultiple = alphabetical(classMultiple);
 		$.each(classMultiple, function(index, value) {
 			loadClass(index);
 		});
@@ -22,61 +24,44 @@ function getClasses() {
 }
 
 function loadClass(id) {
-	var classSingle = store.get("bonus-point.classes." + id), points = 0;
-	if(classSingle.students && Object.keys(classSingle.students).length > 0) {
-		$.each(classSingle.students, function(index, value) {
-			points = points + value.points;
-		});
-	}
+	var classSingle = store.get("bonus-point.classes." + id);
 	fs.readFile("www/templates/classes.txt", "utf-8", function(error, data) {
-		data = data.replace("{{id}}", id).replace("{{name}}", clean(classSingle.name)).replace("{{points}}", points + " Points");
-		if($(".no-classes").length > 0) {
-			$(".classes").html(data);
-		} else {
-			$(".classes").append(data);
-		}
+		data = data.replace("{{id}}", id).replace("{{name}}", clean(classSingle.name)).replace("{{points}}", classSingle.points + " Points");
+		if($(".no-classes").length > 0) $(".classes").html(data);
+		else $(".classes").append(data);
 	});
 }
 
-function loadStudent(id) {
-	var student = store.get("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id);
+function loadStudent(classSingle, id) {
+	var student = store.get("bonus-point.classes." + classSingle + ".students." + id);
 	fs.readFile("www/templates/students.txt", "utf-8", function(error, data) {
 		data = data.replace("{{id}}", id).replace("{{name}}", clean(student.name)).replace("{{points}}", student.points + " Points");
-		if($(".no-students").length > 0) {
-			$(".students").html(data);
-		} else {
-			$(".students").append(data);
-		}
+		if($(".no-students").length > 0) $(".students").html(data);
+		else $(".students").append(data);
 	});
 }
 
-function createStudent(name) {
-	var id = Date.now();
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points", 0);
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".name", name);
-	loadStudent(id);
+function createStudent(classSingle, id, name) {
+	store.set("bonus-point.classes." + classSingle + ".students." + id, {name: name, points: 0});
+	loadStudent(classSingle, id);
 }
 
-function updateClass(name) {
-	name = name === "" ? "New class" : name;
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".name", name);
-	$(".classes li[data-class='" + $(".content").attr("data-class") + "'] .name").text(name);
+function updateClass(id, name) {
+	store.set("bonus-point.classes." + id + ".name", name);
+	$(".classes li[data-class='" + id + "'] .name").text(name);
 }
 
-function updateStudent(id, name) {
-	name = name === "" ? "New class" : name;
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".name", name);
+function updateStudent(classSingle, id, name) {
+	store.set("bonus-point.classes." + classSingle + ".students." + id + ".name", name);
 }
 
-function deleteStudent(id) {
-	var points = Math.max(0, store.get("bonus-point.classes." + $(".content").attr("data-class") + ".points") - store.get("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points"));
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".points", points);
-	$("li[data-class='" + $(".content").attr("data-class") + "'] p.points").text(points + " Points");
-	store.delete("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id);
+function deleteStudent(classSingle, id) {
+	var points = store.get("bonus-point.classes." + classSingle + ".points") - store.get("bonus-point.classes." + classSingle + ".students." + id + ".points");
+	store.set("bonus-point.classes." + classSingle + ".points", points);
+	store.delete("bonus-point.classes." + classSingle + ".students." + id);
+	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
 	$("li[data-student='" + id + "']").remove();
-	if($(".select").length === 0) {
-		$(".controls").fadeOut(100);
-	}
+	if($(".select").length === 0) $(".controls").fadeOut(100);
 	if($(".students").is(":empty")) {
 		fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
 			$(".students").html(data);
@@ -84,9 +69,9 @@ function deleteStudent(id) {
 	}
 }
 
-function deleteClass() {
-	store.delete("bonus-point.classes." + $(".content").attr("data-class"));
-	$("li[data-class='" + $(".content").attr("data-class") + "']").remove();
+function deleteClass(id) {
+	store.delete("bonus-point.classes." + id);
+	$("li[data-class='" + id + "']").remove();
 	$(".content").removeAttr("data-class").empty();
 	if($(".classes").is(":empty")) {
 		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
@@ -100,8 +85,9 @@ function selectClass(id) {
 	fs.readFile("www/templates/class.txt", "utf-8", function(error, data) {
 		$(".content").html(data.replace("{{name}}", clean(classSingle.name))).attr("data-class", id);
 		if(classSingle.students && Object.keys(classSingle.students).length > 0) {
+			classSingle.students = alphabetical(classSingle.students);
 			$.each(classSingle.students, function(index, value) {
-				loadStudent(index);
+				loadStudent(id, index);
 			});
 		} else {
 			fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
@@ -111,50 +97,70 @@ function selectClass(id) {
 	});
 }
 
-function addPointStudent(id) {
-	var points = store.get("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points") + 1;
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points", points);
+function addPointStudent(classSingle, id) {
+	var points = store.get("bonus-point.classes." + classSingle + ".students." + id + ".points") + 1;
+	store.set("bonus-point.classes." + classSingle + ".students." + id + ".points", points);
 	$("li[data-student='" + id + "'] p.points").text(points + " Points");
-	points = store.get("bonus-point.classes." + $(".content").attr("data-class") + ".points") + 1;
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".points", points);
-	$("li[data-class='" + $(".content").attr("data-class") + "'] p.points").text(points + " Points");
+	points = store.get("bonus-point.classes." + classSingle + ".points") + 1;
+	store.set("bonus-point.classes." + classSingle + ".points", points);
+	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
 }
 
-function subtractPointStudent(id) {
-	var points = Math.max(0, store.get("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points") - 1);
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".students." + id + ".points", points);
+function subtractPointStudent(classSingle, id) {
+	var points = Math.max(0, store.get("bonus-point.classes." + classSingle + ".students." + id + ".points") - 1);
+	store.set("bonus-point.classes." + classSingle + ".students." + id + ".points", points);
 	$("li[data-student='" + id + "'] p.points").text(points + " Points");
-	points = Math.max(0, store.get("bonus-point.classes." + $(".content").attr("data-class") + ".points") - 1);
-	store.set("bonus-point.classes." + $(".content").attr("data-class") + ".points", points);
-	$("li[data-class='" + $(".content").attr("data-class") + "'] p.points").text(points + " Points");
+	points = Math.max(0, store.get("bonus-point.classes." + classSingle + ".points") - 1);
+	store.set("bonus-point.classes." + classSingle + ".points", points);
+	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
 }
 
-function deleteSelection() {
+function deleteSelection(classSingle) {
 	$(".select").each(function() {
-		deleteStudent($(this).attr("data-student"));
+		deleteStudent(classSingle, $(this).attr("data-student"));
 	});
 }
 
-function addPointSelection() {
+function addPointSelection(classSingle) {
 	$(".select").each(function() {
-		addPointStudent($(this).attr("data-student"));
+		addPointStudent(classSingle, $(this).attr("data-student"));
 	});
 }
 
-function subtractPointSelection() {
+function subtractPointSelection(classSingle) {
 	$(".select").each(function() {
-		subtractPointStudent($(this).attr("data-student"));
+		subtractPointStudent(classSingle, $(this).attr("data-student"));
 	});
 }
 
-function createClass(name) {
-	var id = Date.now();
+function createClass(id, name) {
 	store.set("bonus-point.classes." + id, {name: name, points: 0});
 	loadClass(id);
 }
 
 function clean(text) {
 	return text.replace("<", "&lt;").replace(">", "&gt;");
+}
+
+function validate(text, placeholder) {
+	if(text === "") return placeholder;
+	return text;
+}
+
+function alphabetical(list) {
+	var sortable = [], sorted = {};
+	$.each(list, function(index, value) {
+		sortable.push({id: index, data: value});
+	});
+	sortable.sort(function(current, next) {
+		if(current.data.name < next.data.name) return -1;
+		if(current.data.name > next.data.name) return 1;
+		return 0;
+	});
+	$.each(sortable, function(index, value) {
+		sorted[value.id] = value.data;
+	});
+	return sorted;
 }
 
 //
@@ -164,69 +170,54 @@ $(document).ready(function() {
 	getClasses();
 	
 	$(document).on("click", ".createClass", function() {
-		createClass("New class");
+		createClass(Date.now(), "New class");
 	});
 
 	$(document).on("click", ".createStudent", function() {
-		createStudent("New student");
+		createStudent($(".content").attr("data-class"), Date.now(), "New student");
 	});
 
 	$(document).on("click", ".deleteClass", function() {
-		deleteClass();
+		deleteClass($(".content").attr("data-class"));
 	});
 	
 	$(document).on("click", ".deleteSelection", function() {
-		deleteSelection();
+		deleteSelection($(".content").attr("data-class"));
 	});
 	
 	$(document).on("click", ".subtractPointSelection", function() {
-		subtractPointSelection();
+		subtractPointSelection($(".content").attr("data-class"));
 	});
 	
 	$(document).on("click", ".addPointSelection", function() {
-		addPointSelection();
-	});
-	
-	$(document).on("click", ".deleteSelection", function() {
-		deleteSelection();
+		addPointSelection($(".content").attr("data-class"));
 	});
 
 	$(document).on("input", ".content .title h2", function() {
-		updateClass($(this).text());
+		updateClass($(".content").attr("data-class"), validate($(this).text(), "New class"));
 	});
 
 	$(document).on("input", ".students li p.name", function() {
-		updateStudent($(this).closest("[data-student]").attr("data-student"), $(this).text());
+		updateStudent($(".content").attr("data-class"), $(this).closest("[data-student]").attr("data-student"), validate($(this).text(), "New student"));
 	});
 
 	$(document).on("click", ".classes li", function() {
-		if($(this).is("[data-class]")) {
-			selectClass($(this).attr("data-class"));
-		}
+		if($(this).is("[data-class]")) selectClass($(this).attr("data-class"));
 	});
 
 	$(document).on("focusout", ".content .title h2", function() {
-		if($(this).text() === "") {
-			$(this).text("New class");
-		}
+		if($(this).text() === "") $(this).text("New class");
 	});
 
 	$(document).on("focusout", ".students li p.name", function() {
-		if($(this).text() === "") {
-			$(this).text("New student");
-		}
+		if($(this).text() === "") $(this).text("New student");
 	});
 	
 	$(document).on("click", ".students li:not(.no-students)", function(event) {
-		if($(this).hasClass("select")) {
-			$(this).removeClass("select");
-		} else {
-			$(this).addClass("select");
-		}
-		if($(".select").length > 0) {
-			$(".controls").fadeIn(100);
-		} else {
-			$(".controls").fadeOut(100);
-		}
+		if($(this).hasClass("select")) $(this).removeClass("select");
+		else $(this).addClass("select");
+		
+		if($(".select").length > 0) $(".controls").fadeIn(100);
+		else $(".controls").fadeOut(100);
 	});
 });
