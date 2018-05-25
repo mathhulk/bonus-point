@@ -61,7 +61,7 @@ function deleteStudent(classSingle, id) {
 	store.delete("bonus-point.classes." + classSingle + ".students." + id);
 	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
 	$("li[data-student='" + id + "']").remove();
-	if($(".select").length === 0) $(".controls").fadeOut(100);
+	$(".controls").hide();
 	if($(".students").is(":empty")) {
 		fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
 			$(".students").html(data);
@@ -73,6 +73,7 @@ function deleteClass(id) {
 	store.delete("bonus-point.classes." + id);
 	$("li[data-class='" + id + "']").remove();
 	$(".content").removeAttr("data-class").empty();
+	$(".controls").hide();
 	if($(".classes").is(":empty")) {
 		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
 			$(".classes").append(data);
@@ -167,7 +168,12 @@ function alphabetical(list) {
 //	EVENTS
 //
 $(document).ready(function() {
+	$(".controls").css("right", $(".content").width() / 2 - $(".controls").width() / 2);
 	getClasses();
+	
+	$(window).on("resize", function() {
+		$(".controls").css("right", $(".content").width() / 2 - $(".controls").width() / 2);
+	});
 	
 	$(document).on("click", ".createClass", function() {
 		createClass(Date.now(), "New class");
@@ -217,7 +223,7 @@ $(document).ready(function() {
 		if($(this).hasClass("select")) $(this).removeClass("select");
 		else $(this).addClass("select");
 		
-		if($(".select").length > 0) $(".controls").fadeIn(100);
-		else $(".controls").fadeOut(100);
+		if($(".select").length > 0) $(".controls").show();
+		else $(".controls").hide();
 	});
 });

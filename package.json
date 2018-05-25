@@ -21,6 +21,6 @@
     "publish": {
       "provider": "github",
       "releaseType": "draft"
-	}
+    }
   }
 }
