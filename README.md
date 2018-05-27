@@ -2,3 +2,5 @@
 Bonus Point allows teachers to track bonus or extra credit points for their students using a simple user interface.
 
 Bonus Point can be installed as a desktop application. The desktop application has been made using `electron` and makes use of `electron-updater` for automatic updates. New releases are automatically published as new versions are built.
+
+[![Example](https://share.mathhulk.me/2018-05-26_18-00-02.png)](https://github.com/mathhulk/bonus-point)
