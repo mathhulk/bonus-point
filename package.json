@@ -1,6 +1,6 @@
 {
   "name": "Bonus-Point",
-  "version": "1.1.1-beta",
+  "version": "1.1.1-beta.1",
   "main": "main.js",
   "description": "Bonus Point allows teachers to track bonus or extra credit points for their students using a simple user interface.",
   "author": "mathhulk",

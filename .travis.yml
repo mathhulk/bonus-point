@@ -5,3 +5,4 @@ os:
   - linux
 after_success:
   - npm run publish
+sudo: false

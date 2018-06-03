@@ -1,6 +1,6 @@
-//
-//	VARIABLES
-//
+/*
+ *	VARIABLES
+ */
 const {app, BrowserWindow} = require("electron");
 const path = require("path");
 const url = require("url");
@@ -8,9 +8,10 @@ const {autoUpdater} = require("electron-updater");
 
 let win;
 
-//
-//	FUNCTIONS
-//
+
+/*
+ *	FUNCTIONS
+ */
 function createWindow() {
 	win = new BrowserWindow({
 		width: 1000, 
@@ -27,6 +28,9 @@ function createWindow() {
 		slashes: true
 	}));
 	
+	/*
+	 *	EVENTS
+	 */
 	win.once("ready-to-show", () => {
 		win.show();
 	});
@@ -35,9 +39,9 @@ function createWindow() {
 	});
 }
 
-//
-//	EVENTS
-//
+/*
+ *	EVENTS
+ */
 app.on("ready", () => {
 	autoUpdater.checkForUpdatesAndNotify();
 	createWindow();

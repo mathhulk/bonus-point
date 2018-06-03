@@ -1,11 +1,11 @@
-//
-//	VARIABLES
-//
+/*
+ *	VARIABLES
+ */
 const app = require("electron");
  
-//
-//	EVENTS
-//
+/*
+ *	EVENTS
+ */
 $(".minimizeWindow").click(function() {
     app.remote.getCurrentWindow().minimize();
 });

@@ -1,14 +1,13 @@
-//
-//	VARIABLES
-//
+/*
+ *	VARIABLES
+ */
 const fs = require("fs");
 const Store = require("electron-store");
 const store = new Store();
 
-//
-//	FUNCTIONS
-// 
-
+/*
+ *	FUNCTIONS
+ */
 function getClasses() {
 	var classMultiple = store.get("bonus-point.classes");
 	if(classMultiple && Object.keys(classMultiple).length > 0) {
@@ -22,7 +21,6 @@ function getClasses() {
 		});
 	}
 }
-
 function loadClass(id) {
 	var classSingle = store.get("bonus-point.classes." + id);
 	fs.readFile("www/templates/classes.txt", "utf-8", function(error, data) {
@@ -31,44 +29,10 @@ function loadClass(id) {
 		else $(".classes").append(data);
 	});
 }
-
-function loadStudent(classSingle, id) {
-	var student = store.get("bonus-point.classes." + classSingle + ".students." + id);
-	fs.readFile("www/templates/students.txt", "utf-8", function(error, data) {
-		data = data.replace("{{id}}", id).replace("{{name}}", clean(student.name)).replace("{{points}}", student.points + " Points");
-		if($(".no-students").length > 0) $(".students").html(data);
-		else $(".students").append(data);
-	});
-}
-
-function createStudent(classSingle, id, name) {
-	store.set("bonus-point.classes." + classSingle + ".students." + id, {name: name, points: 0});
-	loadStudent(classSingle, id);
-}
-
 function updateClass(id, name) {
 	store.set("bonus-point.classes." + id + ".name", name);
 	$(".classes li[data-class='" + id + "'] .name").text(name);
 }
-
-function updateStudent(classSingle, id, name) {
-	store.set("bonus-point.classes." + classSingle + ".students." + id + ".name", name);
-}
-
-function deleteStudent(classSingle, id) {
-	var points = store.get("bonus-point.classes." + classSingle + ".points") - store.get("bonus-point.classes." + classSingle + ".students." + id + ".points");
-	store.set("bonus-point.classes." + classSingle + ".points", points);
-	store.delete("bonus-point.classes." + classSingle + ".students." + id);
-	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
-	$("li[data-student='" + id + "']").remove();
-	$(".controls").hide();
-	if($(".students").is(":empty")) {
-		fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
-			$(".students").html(data);
-		});
-	}
-}
-
 function deleteClass(id) {
 	store.delete("bonus-point.classes." + id);
 	$("li[data-class='" + id + "']").remove();
@@ -80,7 +44,10 @@ function deleteClass(id) {
 		});
 	}
 }
-
+function createClass(id, name) {
+	store.set("bonus-point.classes." + id, {name: name, points: 0});
+	loadClass(id);
+}
 function selectClass(id) {
 	var classSingle = store.get("bonus-point.classes." + id);
 	fs.readFile("www/templates/class.txt", "utf-8", function(error, data) {
@@ -98,6 +65,34 @@ function selectClass(id) {
 	});
 }
 
+function loadStudent(classSingle, id) {
+	var student = store.get("bonus-point.classes." + classSingle + ".students." + id);
+	fs.readFile("www/templates/students.txt", "utf-8", function(error, data) {
+		data = data.replace("{{id}}", id).replace("{{name}}", clean(student.name)).replace("{{points}}", student.points + " Points");
+		if($(".no-students").length > 0) $(".students").html(data);
+		else $(".students").append(data);
+	});
+}
+function createStudent(classSingle, id, name) {
+	store.set("bonus-point.classes." + classSingle + ".students." + id, {name: name, points: 0});
+	loadStudent(classSingle, id);
+}
+function updateStudent(classSingle, id, name) {
+	store.set("bonus-point.classes." + classSingle + ".students." + id + ".name", name);
+}
+function deleteStudent(classSingle, id) {
+	var points = store.get("bonus-point.classes." + classSingle + ".points") - store.get("bonus-point.classes." + classSingle + ".students." + id + ".points");
+	store.set("bonus-point.classes." + classSingle + ".points", points);
+	store.delete("bonus-point.classes." + classSingle + ".students." + id);
+	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
+	$("li[data-student='" + id + "']").remove();
+	$(".controls").hide();
+	if($(".students").is(":empty")) {
+		fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
+			$(".students").html(data);
+		});
+	}
+}
 function addPointStudent(classSingle, id) {
 	var points = store.get("bonus-point.classes." + classSingle + ".students." + id + ".points") + 1;
 	store.set("bonus-point.classes." + classSingle + ".students." + id + ".points", points);
@@ -106,7 +101,6 @@ function addPointStudent(classSingle, id) {
 	store.set("bonus-point.classes." + classSingle + ".points", points);
 	$("li[data-class='" + classSingle + "'] p.points").text(points + " Points");
 }
-
 function subtractPointStudent(classSingle, id) {
 	var points = Math.max(0, store.get("bonus-point.classes." + classSingle + ".students." + id + ".points") - 1);
 	store.set("bonus-point.classes." + classSingle + ".students." + id + ".points", points);
@@ -121,22 +115,15 @@ function deleteSelection(classSingle) {
 		deleteStudent(classSingle, $(this).attr("data-student"));
 	});
 }
-
 function addPointSelection(classSingle) {
 	$(".select").each(function() {
 		addPointStudent(classSingle, $(this).attr("data-student"));
 	});
 }
-
 function subtractPointSelection(classSingle) {
 	$(".select").each(function() {
 		subtractPointStudent(classSingle, $(this).attr("data-student"));
 	});
-}
-
-function createClass(id, name) {
-	store.set("bonus-point.classes." + id, {name: name, points: 0});
-	loadClass(id);
 }
 
 function clean(text) {
@@ -164,9 +151,9 @@ function alphabetical(list) {
 	return sorted;
 }
 
-//
-//	EVENTS
-//
+/*
+ *	EVENTS
+ */
 $(document).ready(function() {
 	$(".controls").css("right", $(".content").width() / 2 - $(".controls").width() / 2);
 	getClasses();
@@ -178,52 +165,44 @@ $(document).ready(function() {
 	$(document).on("click", ".createClass", function() {
 		createClass(Date.now(), "New class");
 	});
-
-	$(document).on("click", ".createStudent", function() {
-		createStudent($(".content").attr("data-class"), Date.now(), "New student");
-	});
-
 	$(document).on("click", ".deleteClass", function() {
 		deleteClass($(".content").attr("data-class"));
+	});
+	$(document).on("click", ".classes li", function() {
+		if($(this).is("[data-class]")) selectClass($(this).attr("data-class"));
+	});
+	
+	$(document).on("click", ".createStudent", function() {
+		createStudent($(".content").attr("data-class"), Date.now(), "New student");
 	});
 	
 	$(document).on("click", ".deleteSelection", function() {
 		deleteSelection($(".content").attr("data-class"));
 	});
-	
 	$(document).on("click", ".subtractPointSelection", function() {
 		subtractPointSelection($(".content").attr("data-class"));
 	});
-	
 	$(document).on("click", ".addPointSelection", function() {
 		addPointSelection($(".content").attr("data-class"));
 	});
-
-	$(document).on("input", ".content .title h2", function() {
-		updateClass($(".content").attr("data-class"), validate($(this).text(), "New class"));
-	});
-
-	$(document).on("input", ".students li p.name", function() {
-		updateStudent($(".content").attr("data-class"), $(this).closest("[data-student]").attr("data-student"), validate($(this).text(), "New student"));
-	});
-
-	$(document).on("click", ".classes li", function() {
-		if($(this).is("[data-class]")) selectClass($(this).attr("data-class"));
-	});
-
-	$(document).on("focusout", ".content .title h2", function() {
-		if($(this).text() === "") $(this).text("New class");
-	});
-
-	$(document).on("focusout", ".students li p.name", function() {
-		if($(this).text() === "") $(this).text("New student");
-	});
-	
 	$(document).on("click", ".students li:not(.no-students)", function(event) {
 		if($(this).hasClass("select")) $(this).removeClass("select");
 		else $(this).addClass("select");
 		
 		if($(".select").length > 0) $(".controls").show();
 		else $(".controls").hide();
+	});
+
+	$(document).on("input", ".content .title h2", function() {
+		updateClass($(".content").attr("data-class"), validate($(this).text(), "New class"));
+	});
+	$(document).on("input", ".students li p.name", function() {
+		updateStudent($(".content").attr("data-class"), $(this).closest("[data-student]").attr("data-student"), validate($(this).text(), "New student"));
+	});
+	$(document).on("focusout", ".content .title h2", function() {
+		if($(this).text() === "") $(this).text("New class");
+	});
+	$(document).on("focusout", ".students li p.name", function() {
+		if($(this).text() === "") $(this).text("New student");
 	});
 });
