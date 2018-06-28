@@ -10,11 +10,6 @@ async function saveConfiguration( ) {
 	store.set("bonus-point", configuration);
 }
 
-function loadConfiguration( ) {
-	configuration = store.get("bonus-point");
-	if(!configuration) configuration = {classes};
-}
-
 function getClasses( ) {
 	if(configuration.classes && Object.keys(configuration.classes).length > 0) {
 		$.each(alphabetical(configuration.classes), function(index, value) {
