@@ -1,8 +1,17 @@
-# Bonus Point [![Build Status](https://travis-ci.org/mathhulk/bonus-point.svg?branch=master)](https://travis-ci.org/mathhulk/bonus-point)
-Bonus Point allows teachers to track bonus or extra credit points for their students using a simple user interface.
+# Bonus Point
+Bonus Point is a desktop application that can be installed on numerous operating systems and allows teachers or other school administrators to track bonus points for their classes and students.
 
-Bonus Point can be installed as a desktop application. The desktop application has been made using `electron` and makes use of `electron-updater` for automatic updates. New releases are automatically published as new versions are built.
+### Description
+Emma can be installed on multiple operating systems and allows for the tracking of bonus points via a beautiful user interface. There are numerous task options that allow for a smooth experience when the application is in use and little distraction whatsoever. The desktop application has been created using [Electron](https://electronjs.org) and makes use of [electron-builder](https://www.electron.build/auto-update) for automatic update distribution and installation. New releases of the desktop application are published automatically when they are built.
 
-<p align="center">
-   <a href="https://github.com/mathhulk/bonus-point"><img src="https://share.mathhulk.me/2018-05-26_18-00-02.png" alt="Example" width="500"></a>
-</p>
+The user interface can be found [here](https://share.mathhulk.me/2018-05-26_18-00-02.png) or [here](https://github.com/mathhulk/bonus-point/wiki).
+
+### Development
+* Install Node.js (v10.3.0+ suggested), npm (v6.1.0+ suggested) and Yarn (v1.7.0+ suggested)
+* Clone `bonus-point` to a local workspace
+* Execute `yarn` to install dependencies
+* Execute `electron-builder` to build the application
+
+Building of the desktop application is managed through [Travis CI](https://travis-ci.org/mathhulk/bonus-point) and new releases are published as the application is updated, as noted above.
+
+[![Build Status](https://travis-ci.org/mathhulk/bonus-point.svg?branch=master)](https://travis-ci.org/mathhulk/bonus-point)
