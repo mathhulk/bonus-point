@@ -1,19 +1,14 @@
-/*
- *	VARIABLES
- */
+// VARIABLES
 const {app, BrowserWindow} = require("electron");
 const path = require("path");
 const url = require("url");
 const {autoUpdater} = require("electron-updater");
 
-let win;
+var application;
 
-
-/*
- *	FUNCTIONS
- */
-function createWindow() {
-	win = new BrowserWindow({
+// FUNCTIONS
+function createWindow( ) {
+	application = new BrowserWindow({
 		width: 1000, 
 		height: 765, 
 		frame: false, 
@@ -22,33 +17,35 @@ function createWindow() {
 		minWidth: 1000, 
 		minHeight: 765
 	});
-	win.loadURL(url.format({
+	
+	application.loadURL(url.format({
 		pathname: path.join(__dirname, "www/index.html"),
 		protocol: "file:",
 		slashes: true
 	}));
 	
-	/*
-	 *	EVENTS
-	 */
-	win.once("ready-to-show", () => {
-		win.show();
+	// EVENTS
+	application.once("ready-to-show", function( ) {
+		application.show();
 	});
-	win.on("closed", () => {
-		win = null;
+	
+	application.on("closed", function( ) {
+		application = null;
 	});
 }
 
 /*
  *	EVENTS
  */
-app.on("ready", () => {
-	autoUpdater.checkForUpdatesAndNotify();
-	createWindow();
+app.on("ready", function( ) {
+	autoUpdater.checkForUpdatesAndNotify( );
+	createWindow( );
 });
-app.on("window-all-closed", () => {
-	if(process.platform !== "darwin") app.quit();
+
+app.on("window-all-closed", function( ) {
+	if(process.platform !== "darwin") app.quit( );
 });
-app.on("activate", () => {
-	if(win === null) createWindow();
+
+app.on("activate", function( ) {
+	if(application === null) createWindow( );
 });
