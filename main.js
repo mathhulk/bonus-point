@@ -26,7 +26,7 @@ function createWindow( ) {
 	
 	// EVENTS
 	application.once("ready-to-show", function( ) {
-		application.show();
+		application.show( );
 	});
 	
 	application.on("closed", function( ) {

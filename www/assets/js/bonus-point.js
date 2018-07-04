@@ -4,10 +4,18 @@ const Store = require("electron-store");
 const store = new Store( );
 
 var configuration = define(store.get("bonus-point"), {classes: { }});
+var templates = { };
 
 // FUNCTIONS
 async function saveConfiguration( ) {
 	store.set("bonus-point", configuration);
+}
+
+function loadTemplates( ) {
+	let data = fs.readdirSync("www/templates");
+	$.each(data, function(index, value) {
+		templates[value.slice(0, -4)] = fs.readFileSync("www/templates/" + value, "utf-8");
+	});
 }
 
 function getClasses( ) {
@@ -16,18 +24,14 @@ function getClasses( ) {
 			loadClass(index);
 		});
 	} else {
-		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
-			$(".classes").html(data);
-		});
+		$(".classes").html(templates["no-classes"]);
 	}
 }
 
 function loadClass(id) {
-	fs.readFile("www/templates/classes.txt", "utf-8", function(error, data) {
-		data = data.replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[id].name)).replace("{{points}}", configuration.classes[id].points + " Points");
-		if($(".no-classes").length > 0) $(".classes").html(data);
-		else $(".classes").append(data);
-	});
+	let data = templates["classes"].replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[id].name)).replace("{{points}}", configuration.classes[id].points + " Points");
+	if($(".no-classes").length > 0) $(".classes").html(data);
+	else $(".classes").append(data);
 }
 
 function updateClass(id, name) {
@@ -40,11 +44,7 @@ function deleteClass(id) {
 	$("li[data-class='" + id + "']").remove( );
 	$(".content").removeAttr("data-class").empty( );
 	$(".controls").hide( );
-	if($(".classes").is(":empty")) {
-		fs.readFile("www/templates/no-classes.txt", "utf-8", function(error, data) {
-			$(".classes").append(data);
-		});
-	}
+	if($(".classes").is(":empty")) $(".classes").append(templates["no-classes"]);
 }
 
 function createClass(id, name) {
@@ -53,26 +53,20 @@ function createClass(id, name) {
 }
 
 function selectClass(id) {
-	fs.readFile("www/templates/class.txt", "utf-8", function(error, data) {
-		$(".content").html(data.replace("{{name}}", clean(configuration.classes[id].name))).attr("data-class", id);
-		if(configuration.classes[id].students && Object.keys(configuration.classes[id].students).length > 0) {
-			$.each(alphabetical(configuration.classes[id].students), function(index, value) {
-				loadStudent(id, index);
-			});
-		} else {
-			fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
-				$(".students").html(data);
-			});
-		}
-	});
+	$(".content").html((templates.class).replace("{{name}}", clean(configuration.classes[id].name))).attr("data-class", id);
+	if(configuration.classes[id].students && Object.keys(configuration.classes[id].students).length > 0) {
+		$.each(alphabetical(configuration.classes[id].students), function(index, value) {
+			loadStudent(id, index);
+		});
+	} else {
+		$(".students").html(templates["no-students"]);
+	}
 }
 
 function loadStudent(classSingle, id) {
-	fs.readFile("www/templates/students.txt", "utf-8", function(error, data) {
-		data = data.replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[classSingle].students[id].name)).replace("{{points}}", configuration.classes[classSingle].students[id].points + " Points");
-		if($(".no-students").length > 0) $(".students").html(data);
-		else $(".students").append(data);
-	});
+	let data = templates["students"].replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[classSingle].students[id].name)).replace("{{points}}", configuration.classes[classSingle].students[id].points + " Points");
+	if($(".no-students").length > 0) $(".students").html(data);
+	else $(".students").append(data);
 }
 
 function createStudent(classSingle, id, name) {
@@ -90,11 +84,7 @@ function deleteStudent(classSingle, id) {
 	$("li[data-class='" + classSingle + "'] p.points").text(configuration.classes[classSingle].points + " Points");
 	$("li[data-student='" + id + "']").remove( );
 	$(".controls").hide( );
-	if($(".students").is(":empty")) {
-		fs.readFile("www/templates/no-students.txt", "utf-8", function(error, data) {
-			$(".students").html(data);
-		});
-	}
+	if($(".students").is(":empty")) $(".students").html(templates["no-students"]);
 }
 
 function addPointStudent(classSingle, id) {
@@ -161,9 +151,14 @@ function alphabetical(list) {
 
 // EVENTS
 $(document).ready(function( ) {
+	loadTemplates( );
 	setInterval(saveConfiguration, 500);
 	$(".controls").css("right", $(".content").width( ) / 2 - $(".controls").width( ) / 2);
 	getClasses( );
+	
+	$(document).on("keypress", ".students li p.name, .content .title h2", function(event) {
+		return event.which !== 13; 
+	});
 	
 	$(window).on("resize", function( ) {
 		$(".controls").css("right", $(".content").width( ) / 2 - $(".controls").width( ) / 2);
@@ -205,11 +200,11 @@ $(document).ready(function( ) {
 	});
 
 	$(document).on("input", ".content .title h2", function( ) {
-		updateClass($(".content").attr("data-class"), validate($(this).text( ), "New class"));
+		updateClass($(".content").attr("data-class"), set($(this).text( ), "New class"));
 	});
 	
 	$(document).on("input", ".students li p.name", function( ) {
-		updateStudent($(".content").attr("data-class"), $(this).closest("[data-student]").attr("data-student"), validate($(this).text( ), "New student"));
+		updateStudent($(".content").attr("data-class"), $(this).closest("[data-student]").attr("data-student"), set($(this).text( ), "New student"));
 	});
 	
 	$(document).on("focusout", ".content .title h2", function( ) {
