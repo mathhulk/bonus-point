@@ -1,4 +1,4 @@
-<li data-student="{{id}}">
-	<p contenteditable="true" class="name">{{name}}</p>
-	<p class="points">{{points}}</p>
+<li data-student="{{ id }}">
+	<p contenteditable="true" class="name">{{ name }}</p>
+	<p class="points">{{ points }}</p>
 </li>

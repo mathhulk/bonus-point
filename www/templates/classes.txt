@@ -1,4 +1,4 @@
-<li data-class="{{id}}">
-	<p class="points">{{points}}</p>
-	<p class="name">{{name}}</p>
+<li data-class="{{ id }}">
+	<p class="points">{{ points }}</p>
+	<p class="name">{{ name }}</p>
 </li>

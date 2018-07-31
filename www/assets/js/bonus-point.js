@@ -18,6 +18,13 @@ function loadTemplates( ) {
 	});
 }
 
+function replace(template, placeholder) {
+	$.each(placeholder, function(index, value) {
+		template = template.replace("{{ " + index + " }}", value);
+	});
+	return template;
+} 
+
 function getClasses( ) {
 	if(configuration.classes && Object.keys(configuration.classes).length > 0) {
 		$.each(alphabetical(configuration.classes), function(index, value) {
@@ -29,7 +36,7 @@ function getClasses( ) {
 }
 
 function loadClass(id) {
-	let data = templates["classes"].replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[id].name)).replace("{{points}}", configuration.classes[id].points + " Points");
+	let data = replace(templates["classes"], {id: id, name: clean(configuration.classes[id].name), points: configuration.classes[id].points + " Points"});
 	if($(".no-classes").length > 0) $(".classes").html(data);
 	else $(".classes").append(data);
 }
@@ -53,7 +60,7 @@ function createClass(id, name) {
 }
 
 function selectClass(id) {
-	$(".content").html((templates.class).replace("{{name}}", clean(configuration.classes[id].name))).attr("data-class", id);
+	$(".content").html(replace(templates["class"], {name: clean(configuration.classes[id].name)})).attr("data-class", id);
 	if(configuration.classes[id].students && Object.keys(configuration.classes[id].students).length > 0) {
 		$.each(alphabetical(configuration.classes[id].students), function(index, value) {
 			loadStudent(id, index);
@@ -64,7 +71,7 @@ function selectClass(id) {
 }
 
 function loadStudent(classSingle, id) {
-	let data = templates["students"].replace("{{id}}", id).replace("{{name}}", clean(configuration.classes[classSingle].students[id].name)).replace("{{points}}", configuration.classes[classSingle].students[id].points + " Points");
+	let data = replace(templates["students"], {id: id, name: clean(configuration.classes[classSingle].students[id].name), points: configuration.classes[classSingle].students[id].points + " Points"});
 	if($(".no-students").length > 0) $(".students").html(data);
 	else $(".students").append(data);
 }
@@ -130,7 +137,7 @@ function set(string, standard) {
 
 function define(object, standard) {
 	if(object) return object;
-	return standard
+	return standard;
 }
 
 function alphabetical(list) {
