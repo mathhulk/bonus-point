@@ -9,6 +9,7 @@ var templates = { };
 // FUNCTIONS
 async function saveConfiguration( ) {
 	store.set("bonus-point", configuration);
+	setTimeout(saveConfiguration, 500);
 }
 
 function loadTemplates( ) {
@@ -109,19 +110,19 @@ function subtractPointStudent(classSingle, id) {
 }
 
 function deleteSelection(classSingle) {
-	$(".select").each(function() {
+	$(".select").each(function( ) {
 		deleteStudent(classSingle, $(this).attr("data-student"));
 	});
 }
 
 function addPointSelection(classSingle) {
-	$(".select").each(function() {
+	$(".select").each(function( ) {
 		addPointStudent(classSingle, $(this).attr("data-student"));
 	});
 }
 
 function subtractPointSelection(classSingle) {
-	$(".select").each(function() {
+	$(".select").each(function( ) {
 		subtractPointStudent(classSingle, $(this).attr("data-student"));
 	});
 }
@@ -159,7 +160,7 @@ function alphabetical(list) {
 // EVENTS
 $(document).ready(function( ) {
 	loadTemplates( );
-	setInterval(saveConfiguration, 500);
+	saveConfiguration( );
 	$(".controls").css("right", $(".content").width( ) / 2 - $(".controls").width( ) / 2);
 	getClasses( );
 	
@@ -184,7 +185,7 @@ $(document).ready(function( ) {
 	});
 	
 	$(document).on("click", ".createStudent", function( ) {
-		createStudent($(".content").attr("data-class"), Date.now(), "New student");
+		createStudent($(".content").attr("data-class"), Date.now( ), "New student");
 	});
 	
 	$(document).on("click", ".deleteSelection", function( ) {
