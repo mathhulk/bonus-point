@@ -1,0 +1,4 @@
+<div class="student oops">
+	<p>No Students</p> 
+	<h2>Create a student</h2>
+</div>

@@ -1,13 +1,11 @@
-// VARIABLES
 const app = require("electron");
- 
-// EVENTS
+
 $(".minimizeWindow").click(function( ) {
     app.remote.getCurrentWindow( ).minimize( );
 });
 
 $(".maximizeWindow").click(function( ) {
-    (!app.remote.getCurrentWindow( ).isMaximized( ) ? app.remote.getCurrentWindow( ).maximize( ) : app.remote.getCurrentWindow( ).unmaximize( ));
+    ( ! app.remote.getCurrentWindow( ).isMaximized( ) ? app.remote.getCurrentWindow( ).maximize( ) : app.remote.getCurrentWindow( ).unmaximize( ) );
 });
 
 $(".closeWindow").click(function( ) {
@@ -16,5 +14,6 @@ $(".closeWindow").click(function( ) {
 
 $(document).on("click", "a[href^=\"http\"]", function(event) {
     event.preventDefault( );
+	
     app.shell.openExternal(this.href);
 });

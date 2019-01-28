@@ -1,0 +1,177 @@
+.classes {
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.classes, .open {
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+}
+
+.classes .scroll, .open .scroll {
+	height: calc(100% - 99px);
+	overflow: auto;
+}
+
+.classes .stick {
+	height: 99px;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+}
+
+.classes .scroll .class, .open .scroll .student {
+	margin: 15px 15px 0;
+}
+
+.classes .scroll .class:last-child, .open .scroll .student:last-child {
+	margin-bottom: 15px;
+}
+
+.classes .scroll .class, .classes .stick .new, .open .scroll .student, .open .stick .new, .open .stick .delete {
+	transition: all 0.1s ease;
+	border-radius: 3px;
+}
+
+.classes .scroll .class:not(.oops), .classes .stick .new, .open .scroll .student:not(.oops), .open .stick .new, .open .stick .delete {
+	cursor: pointer;
+}
+
+.classes .scroll .class, .open .scroll .student {
+	width: calc(100% - 30px);
+}
+
+.classes .scroll .class.selected, .classes .scroll .class:not(.oops):hover {
+	border: 1px solid rgb(56, 132, 255);
+	color: rgb(56, 132, 255);
+}
+
+.open .scroll .student.selected, .open .scroll .student:not(.oops):hover {
+	border: 1px solid rgb(84, 196, 64);
+	color: rgb(84, 196, 64);
+}
+
+.classes .scroll .class, .open .scroll .student {
+	background: white;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	color: #242A31;
+	padding: 15px;
+}
+
+.classes .scroll .class p, .classes .scroll .class h2, .open .scroll .student p, .open .scroll .student h2 {
+	margin: 0;
+}
+
+.classes .scroll .class p, .open .scroll .student p {
+	font-weight: 400;
+	color: #9DAAB6;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+.open .stick {
+	height: 99px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Stupid CSS */
+.row {
+	margin-left: 0;
+}
+
+.classes .scroll .class h2, .open .scroll .student h2 {
+	font-weight: 500;
+	font-size: 20px;
+}
+
+.classes .scroll .class:not(.oops) h2, .open .scroll .student:not(.oops) h2 {
+	cursor: text;
+}
+
+/* Stupid CSS */
+.col-sm-6 {
+	padding: 0;
+}
+
+.classes .stick .new, .open .stick .new, .open .stick .delete {
+	height: 69px;
+	margin: 15px;
+	color: white;
+}
+
+.classes .stick .new {
+	background: rgb(56, 132, 255);
+	position: sticky;
+	bottom: 15px;
+}
+
+.open .stick .new {
+	background: rgb(84, 196, 64);
+}
+
+.open .stick .delete {
+	background: #ff5e5e;
+	margin-left: 0;
+	
+	/* Stupid CSS */
+	width: calc(100% - 30px);
+}
+
+.classes .stick .new .icon, .classes .stick .new .text, .open .stick .new .icon, .open .stick .new .text, .open .stick .delete .icon, .open .stick .delete .text {
+	display: inline-block;
+	text-align: center;
+	font-size: 20px;
+	padding-top: 24.5px;
+	line-height: 20px;
+}
+
+.classes .stick .new .icon, .open .stick .new .icon, .open .stick .delete .icon {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.classes .stick .new .icon i, .open .stick .new .icon i, .open .stick .delete .icon i, .control .add i, .control .subtract i, .control .delete i {
+	font-weight: 400;
+}
+
+.classes .stick .new .text, .open .stick .new .text, .open .stick .delete .text {
+	font-weight: 500;
+}
+
+.control {
+	left: calc(100% / 3 * 2);
+	transform: translateX(-100px);
+	bottom: 15px;
+	height: calc(140px / 3 + 30px);
+	padding: 15px;
+	width: 200px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	position: fixed;
+	border-radius: 3px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+	background: white;
+	display: none;
+}
+
+.control .add, .control .subtract, .control .delete {
+	display: inline-block;
+	border-radius: 3px;
+	width: calc(140px / 3);
+	cursor: pointer;
+	color: white;	
+	text-align: center;
+	font-size: 20px;
+	padding-top: 13.5px;
+	line-height: 20px;
+	height: calc(140px / 3);
+}
+
+.control .add, .control .subtract {
+	background: #9301BA;
+	
+	/* Stupid CSS */
+	margin-right: 10px;
+}
+
+.control .delete {
+	background: #ff5e5e;
+}

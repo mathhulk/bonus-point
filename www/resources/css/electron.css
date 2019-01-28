@@ -1,0 +1,80 @@
+* {
+	box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+:focus {
+	outline: none;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	margin: 0;
+	font-family: "Roboto", sans-serif;
+	background: #F5F7F9;
+	
+	user-select: none;
+}
+
+.content {
+	overflow: auto;
+	width: 100%;
+	height: calc(100% - 39px);
+	z-index: -1;
+}
+
+.electron {
+	width: 100%;
+	background: white;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+	height: 39px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	z-index: 999;
+	
+	-webkit-app-region: drag;
+}
+
+.electron .left, .electron .right {
+	display: inline-block;
+}
+
+.electron .left {
+	float: left;
+}
+
+.electron .right {
+	float: right;
+}
+
+.electron .right a, .electron .left a {
+	color: #242A31;
+	text-decoration: none;
+	transition: all 0.1s ease;
+	display: block;
+	padding: 10px 15px;
+	font-size: 15px;
+	
+	-webkit-app-region: no-drag;
+}
+
+.electron .right a:hover {
+	background: rgba(0, 0, 0, 0.03);
+}
+
+.electron .right a {
+	cursor: pointer;
+}
+
+.electron .right a i {
+	font-weight: 400;
+}
+
+.electron .left a {
+	font-weight: 600;
+	text-transform: uppercase;
+}

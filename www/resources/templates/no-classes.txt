@@ -1,0 +1,4 @@
+<div class="class oops">
+	<p>No Classes</p> 
+	<h2>Create a class</h2>
+</div>

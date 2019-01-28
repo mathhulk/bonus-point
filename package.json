@@ -1,20 +1,19 @@
 {
-  "name": "Bonus-Point",
-  "version": "1.3.1-beta.2",
+  "name": "bonus-point",
+  "version": "2.1.0-beta",
   "main": "main.js",
-  "description": "Bonus Point allows teachers to track bonus or extra credit points for their students using a simple user interface.",
+  "description": "Teachers and other school administrators can track bonus credit for their classes.",
   "author": "mathhulk",
   "scripts": {
     "publish": "build -p always",
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^3.0.0-beta.4",
-    "electron-builder": "^20.26.1"
+    "electron": "^4.0.2",
+    "electron-builder": "^20.38.5"
   },
   "dependencies": {
-    "electron-store": "^2.0.0",
-    "electron-updater": "^3.0.3",
+    "electron-updater": "^4.0.6",
     "typeface-roboto": "0.0.54"
   },
   "build": {

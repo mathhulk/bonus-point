@@ -1,0 +1,4 @@
+<div data-student="{{ id }}" class="student">
+	<p>{{ points }}</p> 
+	<h2 contenteditable="true">{{ name }}</h2>
+</div>

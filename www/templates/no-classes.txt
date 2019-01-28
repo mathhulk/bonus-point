@@ -1,4 +1,0 @@
-<li class="no-classes">
-	<p class="points">Oops</p>
-	<p class="name">Create a class</p>
-</li>

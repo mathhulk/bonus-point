@@ -3,40 +3,74 @@
 	<head>
 		<title>Bonus Point</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-		<link rel="stylesheet" href="assets/css/electron.css">
-		<link rel="stylesheet" href="assets/css/bonus-point.css">
+		
+		<link rel="stylesheet" type="text/css" href="resources/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/bootstrap-grid.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="resources/css/electron.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/bonus-point.css">
 	</head>
 	<body>
-		<div class="window-bar">
-			<ul class="menu">
-				<li class="left"><a href="https://bonuspoint.org">Bonus Point</a></li>
-				<li class="right"><a class="closeWindow"><i class="fa fa-times"></i></a></li>
-				<li class="right"><a class="maximizeWindow"><i class="fa fa-window-maximize"></i></a></li>
-				<li class="right"><a class="minimizeWindow"><i class="fa fa-window-minimize"></i></a></li>
-			</ul>
-		</div>
-		
-		<div class="side">
-			<div class="title clear">
-				<h2>Classes</h2>
-				<p class="createClass"><i class="fa fa-plus"></i></p>
+		<div class="electron">
+			<div class="left">
+				<a>Bonus Point</a>
 			</div>
-			<ul class="classes"><!-- classes --></ul>
+			
+			<div class="right">
+				<a class="closeWindow"><i class="fas fa-times"><!-- icon --></i></a>
+			</div>
+			
+			<div class="right">
+				<a class="maximizeWindow"><i class="fas fa-window-maximize"><!-- icon --></i></a>
+			</div>
+			
+			<div class="right">
+				<a class="minimizeWindow"><i class="fas fa-window-minimize"><!-- icon --></i></a>
+			</div>
 		</div>
 		
-		<div class="content"><!-- class --></div>
-		
-		<div class="controls">
-			<p class="addPointSelection"><i class="fa fa-plus"></i></p>
-			<p class="subtractPointSelection"><i class="fa fa-minus"></i></p>
-			<p class="deleteSelection"><i class="fa fa-trash"></i></p>
+		<div class="content row">
+			<div class="classes col-sm-4">
+				<div class="scroll">
+					<!-- classes -->
+				</div>
+				
+				<div class="stick">
+					<div class="new row">
+						<div class="icon col-sm-2"><i class="fas fa-plus"><!-- icon --></i></div>
+						
+						<div class="text col-sm-10">New Class</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="open col-sm-8">
+				<!-- selected class -->
+			</div>
 		</div>
 		
-		<script>if (typeof module === "object") {window.module = module; module = undefined;}</script>
-		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-		<script type="text/javascript" src="assets/js/electron.js"></script>
-		<script type="text/javascript" src="assets/js/bonus-point.js"></script>
-		<script>if (window.module) module = window.module;</script>
+		<div class="control">
+			<div class="add"><i class="fas fa-plus"><!-- icon --></i></div>
+			
+			<div class="subtract"><i class="fas fa-minus"><!-- icon --></i></div>
+			
+			<div class="delete"><i class="fas fa-trash"><!-- icon --></i></div>
+		</div>
+		
+		<script type="text/javascript">
+			if(typeof module === "object") {
+				window.module = module; module = undefined;
+			}
+		</script>
+		
+		<script type="text/javascript" src="resources/javascript/jquery.min.js"><!-- script --></script>
+		<script type="text/javascript" src="resources/javascript/store.min.js"><!-- script --></script>
+		
+		<script type="text/javascript" src="resources/javascript/electron.js"><!-- script --></script>
+		<script type="text/javascript" src="resources/javascript/bonus-point.js"><!-- script --></script>
+		
+		<script type="text/javascript">
+			if(window.module) module = window.module;
+		</script>
 	</body>
 </html>
