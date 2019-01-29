@@ -60,8 +60,8 @@ $(document).ready(function( ) {
 		updateStudent( $(this).parent( ).attr("data-student"), $(this).text( ) );
 	});
 	
-	$(document).on("focusout", ".students li p.name", function( ) {
-		if($(this).text( ) === "") $(this).text("New student");
+	$(document).on("focusout", ".open .scroll .student h2", function( ) {
+		if($(this).text( ).length === 0) $(this).text("New student");
 	});
 });
 
@@ -119,11 +119,10 @@ function deleteClass( ) {
 	
 	$(".classes .scroll .class[data-class='" + index + "']").remove( );
 	
+	if( $(".classes .scroll .class").length === 0 ) $(".classes .scroll").html(templates["no-classes"]);
+	
 	$(".open").empty( );
-	
 	$(".control").hide( );
-	
-	if( $(".classes .scroll").is(":empty") ) $(".classes .scroll").html(templates["no-classes"]);
 }
 
 function createClass( ) {
@@ -197,9 +196,9 @@ function deleteStudent(studentIndex) {
 	
 	$(".open .scroll .student[data-student='" + studentIndex + "']").remove( );
 	
-	$(".control").hide( );
+	if( $(".open .scroll .student").length === 0 ) $(".open .scroll").html(templates["no-students"]);
 	
-	if( $(".open .scroll").is(":empty") ) $(".open .scroll").html(templates["no-students"]);
+	$(".control").hide( );
 }
 
 function addPointStudent(studentIndex) {

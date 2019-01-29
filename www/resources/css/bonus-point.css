@@ -11,12 +11,16 @@
 .classes .scroll, .open .scroll {
 	height: calc(100% - 99px);
 	overflow: auto;
+	position: relative;
+	z-index: 1;
 }
 
 .classes .stick {
 	height: 99px;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+	position: relative;
+	z-index: 2;
 }
 
 .classes .scroll .class, .open .scroll .student {
@@ -72,6 +76,8 @@
 	height: 99px;
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	position: relative;
+	z-index: 999;
 }
 
 /* Stupid CSS */
@@ -139,30 +145,30 @@
 
 .control {
 	left: calc(100% / 3 * 2);
-	transform: translateX(-100px);
+	transform: translateX(-50%);
 	bottom: 15px;
-	height: calc(140px / 3 + 30px);
+	height: 84px;
 	padding: 15px;
-	width: 200px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	position: fixed;
 	border-radius: 3px;
 	box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
 	background: white;
 	display: none;
+	z-index: 3;
 }
 
 .control .add, .control .subtract, .control .delete {
 	display: inline-block;
 	border-radius: 3px;
-	width: calc(140px / 3);
+	width: 54px;
+	height: 54px;
 	cursor: pointer;
 	color: white;	
 	text-align: center;
 	font-size: 20px;
-	padding-top: 13.5px;
+	padding-top: 17px;
 	line-height: 20px;
-	height: calc(140px / 3);
 }
 
 .control .add, .control .subtract {

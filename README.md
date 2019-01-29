@@ -4,7 +4,7 @@ Bonus Point can be installed on Windows and macOS in order for teachers or other
 ### Description
 Bonus Point can be installed on Windows and macOS in order for teachers or other school administrators to track bonus points for their classes and students through a sleek and minimal user interface. The desktop application was created using [Electron](https://electronjs.org) and makes use of [electron-builder](https://www.electron.build/auto-update) for automatic update distribution and installation. New releases of the desktop application are published automatically when built.
 
-Examples of the user interface can be found [here](https://share.mathhulk.me/electron_2019-01-27_18-50-50.png) or [here](https://github.com/mathhulk/bonus-point/wiki).
+Examples of the user interface can be found [here](https://share.mathhulk.me/2019-01-28_16-10-31.png) or [here](https://github.com/mathhulk/bonus-point/wiki).
 
 ### Development
 * Install Node.js (v10.3.0+ suggested), npm (v6.1.0+ suggested) and Yarn (v1.7.0+ suggested)

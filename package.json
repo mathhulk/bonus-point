@@ -1,6 +1,6 @@
 {
   "name": "bonus-point",
-  "version": "2.1.0-beta",
+  "version": "2.1.1-beta",
   "main": "main.js",
   "description": "Teachers and other school administrators can track bonus credit for their classes.",
   "author": "mathhulk",
