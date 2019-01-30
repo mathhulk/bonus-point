@@ -13,8 +13,7 @@
     "electron-builder": "^20.38.5"
   },
   "dependencies": {
-    "electron-updater": "^4.0.6",
-    "typeface-roboto": "0.0.54"
+    "electron-updater": "^4.0.6"
   },
   "build": {
     "appId": "net.mathhulk.bonus-point",
